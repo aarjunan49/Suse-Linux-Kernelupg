@@ -11,7 +11,7 @@
 SID=$1
 INST=$2
 #dir=`pwd`
-dir="/usr/sap/"${SID}"/SYS/exe/uc/rs6000_64"
+dir="/usr/sap/"${SID}"/SYS/exe/uc/linuxx86_64"
 echo "Starting system $SID $INST"
 
 export LIBPATH="$dir:$LIBPATH"
