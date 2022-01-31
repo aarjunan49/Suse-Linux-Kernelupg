@@ -12,7 +12,7 @@
 SID=$1
 INST=$2
 
-dir="/usr/sap/"${SID}"/SYS/exe/uc/rs6000_64"
+dir="/usr/sap/"${SID}"/SYS/exe/uc/linuxx86_64"
 echo "Stoping system $SID $INST"
 
 export LIBPATH="$dir:$LIBPATH"
