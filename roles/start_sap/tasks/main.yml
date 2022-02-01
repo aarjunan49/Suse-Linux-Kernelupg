@@ -3,6 +3,7 @@
 
 # start PreService
 - name: Start PreService
+  become: yes
   import_tasks: sap_start_pre.yml
 
 # start instance

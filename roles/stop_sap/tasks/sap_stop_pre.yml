@@ -90,7 +90,7 @@
 # sap_nr is undefined
 #######################
 - name: Check all running SAP instances
-  shell: "{{ sapctr_exe_dir }}/sapcontrol -nr {{ sap_sid_profile.stdout.split()[2] }} -function GetSystemInstanceList | grep -i green | sort -k 5nr,"
+  shell: "{{ sapctr_exe_dir }}/sapcontrol -nr {{ sap_sid_profile.stdout.split()[2] }} -function GetSystemInstanceList | grep -i green | sort -k 5nr"
   environment:
     LIBPATH: "{{ sapctr_exe_dir }}"
   args:

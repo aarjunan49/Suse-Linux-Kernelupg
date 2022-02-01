@@ -3,9 +3,14 @@
 
 # stop pre task
 - name: SAP Stop pre task
+  become: yes
+  #become_method: su
+  #become_user: s4dadm
   import_tasks: sap_stop_pre.yml
 
 # stop instance
 - name: Stop Instance
+  become: yes
   import_tasks: sap_stopInstance.yml
+
   
