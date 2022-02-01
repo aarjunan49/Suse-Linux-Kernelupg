@@ -1,6 +1,7 @@
 ---
 ###########################################
 # tasks file for sap_start_pre
+# Login as sidadm user
 ###########################################
 
 ###########################################
@@ -44,6 +45,7 @@
 # Check running SAP Service
 ###########################################
 - name: Get sid from profile
+  become: yes
   shell: grep -w 'SAPSYSTEM'  "{{ check_sap_service|replace('pf=', '') }}"
   register: sap_sid_profile
   
@@ -91,7 +93,7 @@
 # sap_nr is undefined
 #######################
 - name: Check all running SAP instances
-  shell: "{{ sapctr_exe_dir }}/sapcontrol -nr {{ sap_sid_profile.stdout.split()[2] }} -function GetSystemInstanceList | grep -i gray | sort -k 5nr,"
+  shell: "{{ sapctr_exe_dir }}/sapcontrol -nr {{ sap_sid_profile.stdout.split()[2] }} -function GetSystemInstanceList | grep -i gray | sort -k 5nr"
   environment:
     LIBPATH: "{{ sapctr_exe_dir }}"
   args:
