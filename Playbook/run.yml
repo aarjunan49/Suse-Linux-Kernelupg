@@ -1,7 +1,5 @@
-- hosts:
-    s4_app_server
+- hosts: s4_app_server
   vars:
       sap_sid: "S4D"
-      roles:
-  role:
+  roles:
     - {role: start_sap}
