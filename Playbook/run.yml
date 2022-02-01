@@ -1,0 +1,7 @@
+---
+- hosts:
+    s4_app_server
+  vars:
+      sap_sid: "S4D"
+      roles:
+      role: start_sap

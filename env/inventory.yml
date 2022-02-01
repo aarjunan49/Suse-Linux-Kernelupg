@@ -1,0 +1,70 @@
+---
+# Definition of common connection variables for hosts
+all:
+  vars:
+    ansible_user: centiq_aaa
+    ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+    ansible_python_interpreter: /usr/bin/python3
+
+# Group definition of HANA servers
+hana_servers:
+  hosts:
+    ciss4devdb01:
+      ansible_host: 10.65.2.68
+    cissmddevdb01:
+      ansible_host: 10.65.2.69
+
+# Group definition of Application servers
+app_servers:
+  hosts:
+    ciss4devap01:
+      ansible_host: 10.65.2.81
+    cissmdap01:
+      ansible_host: 10.65.2.83
+    cispodap01:
+      ansible_host: 10.65.2.86
+    ciswdap01:
+      ansible_host: 10.65.2.88
+
+# Group definition of Application servers
+s4_app_server:
+  hosts:
+    ciss4devap01:
+      ansible_host: 10.65.2.81
+s4_vir_app_server:
+  hosts:
+    ciss4dap01:
+      ansible_host: 10.65.2.82
+# Group definition of PO Application servers
+po_app_server:
+  hosts:
+    cispodap01:
+      ansible_host: 10.65.2.86
+po_vir_app_server:
+  hosts:
+    cispodevap01:
+      ansible_host: 10.65.2.87
+# Group definition of HANA servers
+s4_hana_server:
+  hosts:
+    ciss4devdb01:
+      ansible_host: 10.65.2.68
+# Group definition of Application servers
+sm_app_server:
+  hosts:
+    cissmdap01:
+      ansible_host: 10.65.2.83
+smabap_vir_app_server:
+  hosts:
+    cisdsaap01:
+      ansible_host: 10.65.2.84
+smjava_vir_app_server:
+  hosts:
+    cisdsjap01:
+      ansible_host: 10.65.2.85
+
+# Group definition of HANA servers
+sm_hana_server:
+  hosts:
+    cissmddevdb01:
+      ansible_host: 10.65.2.69
