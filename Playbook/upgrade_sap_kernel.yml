@@ -1,0 +1,6 @@
+- hosts: s4_app_server
+  vars:
+  - upgsapkrn_input_sap_sid: "S4D"
+  roles:
+  - {role: upgrade_sap_kernel}
+ # - role: <ansible_dir>/roles/upgrade_sap_kernel
