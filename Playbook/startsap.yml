@@ -3,3 +3,15 @@
       sap_sid: "S4D"
   roles:
     - {role: start_sap}
+
+- hosts: smabap_vir_app_server
+  vars:
+      sap_sid: "DSA"
+  roles:
+    - {role: start_sap}
+
+- hosts: smjava_vir_app_server
+  vars:
+      sap_sid: "DSJ"
+  roles:
+    - {role: start_sap}
