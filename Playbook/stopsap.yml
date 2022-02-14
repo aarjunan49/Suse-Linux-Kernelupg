@@ -1,6 +1,18 @@
-- hosts: s4_app_server
+#- hosts: s4_app_server
+ # vars:
+ #     sap_sid: "S4D"
+ #     #sidadm: s4dadm
+ # roles:
+ #   - {role: stop_sap}
+
+- hosts: smabap_vir_app_server
   vars:
-      sap_sid: "S4D"
-      #sidadm: s4dadm
+      sap_sid: "DSA"
+  roles:
+    - {role: stop_sap}
+
+- hosts: smjava_vir_app_server
+  vars:
+      sap_sid: "DSJ"
   roles:
     - {role: stop_sap}
