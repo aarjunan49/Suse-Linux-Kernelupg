@@ -13,53 +13,63 @@
 # Prepare directory on managed node to upload resources
 #########################################################
 - name: Check dir {{ upgsapkrn_dir_upload_managednode }} on managed node to upload resources
+  become: yes
   file:
     path: "{{ upgsapkrn_dir_upload_managednode }}"
     state: absent
     owner: "{{ upgsapkrn_input_sap_adm }}"
     group: "{{ upgsapkrn_input_sap_sys }}"
-    mode: 0755
+    mode: 0775
 - name: Check directory {{ upgsapkrn_dir_upload_managednode }}
+  become: yes
   file:
     path: "{{ upgsapkrn_dir_upload_managednode }}"
     state: directory
     owner: "{{ upgsapkrn_input_sap_adm }}"
     group: "{{ upgsapkrn_input_sap_sys }}"
-    mode: 0755
+    mode: 0775
 #########################################################
 # Prepare directory on managed node to extract resources
 #########################################################
 - name: Check dir {{ upgsapkrn_dir_extracted_sar_managednode }} on managed node to extract resources
+ # become_user: "{{ upgsapkrn_input_sap_adm }}"
+  become: yes
   file:
     path: "{{ upgsapkrn_dir_extracted_sar_managednode }}"
     state: absent
     owner: "{{ upgsapkrn_input_sap_adm }}"
     group: "{{ upgsapkrn_input_sap_sys }}"
-    mode: 0755
+    mode: 0775
 - name: Check directory {{ upgsapkrn_dir_extracted_sar_managednode }}
+ # become_user: "{{ upgsapkrn_input_sap_adm }}"
+  become: yes
   file:
     path: "{{ upgsapkrn_dir_extracted_sar_managednode }}"
     state: directory
     owner: "{{ upgsapkrn_input_sap_adm }}"
     group: "{{ upgsapkrn_input_sap_sys }}"
-    mode: 0755
+    mode: 0775
     ######################################################
 # Prepare directory on managed node to backup kernel
 ######################################################
 - name: Check dir {{ upgsapkrn_dir_extracted_sar_managednode }} to backup kernel
+ # become_user: "{{ upgsapkrn_input_sap_adm }}"
+  become: yes
   file:
     path: "{{ upgsapkrn_dir_kernel_backup_managednode }}"
     state: absent
     owner: "{{ upgsapkrn_input_sap_adm }}"
     group: "{{ upgsapkrn_input_sap_sys }}"
-    mode: 0755
+    mode: 0775
 - name: Check directory {{ upgsapkrn_dir_kernel_backup_managednode }}
+ # become_user: "{{ upgsapkrn_input_sap_adm }}"
+  become: yes
   file:
     path: "{{ upgsapkrn_dir_kernel_backup_managednode }}"
     state: directory
     owner: "{{ upgsapkrn_input_sap_adm }}"
     group: "{{ upgsapkrn_input_sap_sys }}"
-    mode: 0755
+    mode: 0775
     ######################################################
 # Search SAPCAR in sapcar directory on control node
 ######################################################
@@ -70,7 +80,7 @@
   delegate_to: localhost
   register: upgsapkrn_output_search_sapcar
   when: upgsapkrn_fact_sapcar_file is undefined
-  
+
 - name: If found, set SAPCAR path variable
   ansible.builtin.set_fact:
     upgsapkrn_fact_sapcar_file: "{{ upgsapkrn_dir_download_sapcar_controlnode | default(upgsapkrn_fact_sapcar_file) }}"
@@ -90,7 +100,7 @@
   ansible.builtin.set_fact:
     upgsapkrn_fact_sapcar_file: "{{ upgsapkrn_dir_upload_managednode }}"
   when: upgsapkrn_output_search_sapcar.stdout != ""
- 
+
 ######################################################
 # Search SAPCAR in sar directory on control node
 ######################################################
@@ -101,12 +111,12 @@
   delegate_to: localhost
   register: upgsapkrn_output_search_sapcar_download_sar_controlnode
   when: upgsapkrn_fact_sapcar_file_in_saphostagent_dir is undefined
-   
+
 - name: If found, set SAPCAR path variable
   ansible.builtin.set_fact:
     upgsapkrn_fact_sapcar_file_in_saphostagent_dir: "{{ upgsapkrn_dir_download_sar_controlnode | default(upgsapkrn_fact_sapcar_file) }}"
   when: upgsapkrn_fact_sapcar_file is undefined and upgsapkrn_fact_sapcar_file_in_saphostagent_dir is undefined and upgsapkrn_output_search_sapcar_download_sar_controlnode.stdout != ""
- 
+
 ######################################################
 # if SAPCAR available , upload to managed node
 ######################################################
@@ -121,7 +131,7 @@
   ansible.builtin.set_fact:
     upgsapkrn_fact_sapcar_file: "{{ upgsapkrn_dir_upload_managednode }}"
   when: upgsapkrn_output_search_sapcar_download_sar_controlnode.stdout != "" and upgsapkrn_fact_sapcar_file is undefined
-  
+
 ################################################################
 # Search SAPCAR in the SAP kernel exe dir on managed node
 ################################################################
@@ -131,7 +141,7 @@
     cmd: 'ls -d {{ upgsapkrn_file_sapcar }} | cat'
   register: sap_upgrade_sapcar_remote_available
   when: upgsapkrn_fact_sapcar_file is undefined
-  
+
 - name: If found, set SAPCAR path variable
   ansible.builtin.set_fact:
     upgsapkrn_fact_sapcar_file: "{{ upgsapkrn_dir_sapcar_default_managednode }}"
@@ -167,6 +177,7 @@
 # Upload SAR files to dir on managed node
 ######################################################
 - name: Upload SAR files to dir {{ upgsapkrn_dir_upload_managednode }} on managed node
+  become: yes
   ansible.builtin.copy:
     src: "{{ item }}"
     dest: "{{ upgsapkrn_dir_upload_managednode }}"
@@ -183,7 +194,8 @@
 - name: Extract SAR files into dir {{ upgsapkrn_dir_extracted_sar_managednode }}
   become_user: "{{ upgsapkrn_input_sap_adm }}"
   become: yes
-  shell: "ls {{ upgsapkrn_dir_upload_managednode }}/*.*(sar|SAR)* | xargs -n1 {{ upgsapkrn_fact_sapcar_file }}/{{ upgsapkrn_file_sapcar }} -xvf"
+  #shell: "ls {{ upgsapkrn_dir_upload_managednode }}/*.*(sar|SAR)* | xargs -n1 {{ upgsapkrn_fact_sapcar_file }}/{{ upgsapkrn_file_sapcar }} -xvf"
+  shell: "ls {{ upgsapkrn_dir_upload_managednode }}/*.SAR | xargs -n1 {{ upgsapkrn_fact_sapcar_file }}/{{ upgsapkrn_file_sapcar }} -xvf"
   environment:
     LIBPATH: "{{ upgsapkrn_dir_extracted_sar_managednode }}"
   args:
@@ -218,3 +230,13 @@
     chdir: "{{ upgsapkrn_dir_upgrade_kernel }}"
   register: result_files
   failed_when: result_files.rc >= 2
+######################################################
+## Post Kernel Upg
+#######################################################
+- name: Execute saproot script
+  become: yes
+  shell: "{{ upgsapkrn_dir_upgrade_kernel }}/saproot.sh {{ upgsapkrn_input_sap_sid }}"
+  environment:
+    LIBPATH: "{{ upgsapkrn_dir_upgrade_kernel }}"
+  args:
+    chdir: "{{ upgsapkrn_dir_upgrade_kernel }}"
