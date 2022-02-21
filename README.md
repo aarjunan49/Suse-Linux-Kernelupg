@@ -1,6 +1,6 @@
-# Ansible Content for IBM Power Systems - AIX with SAP Software
+# Ansible Content for SUSE/RHEL with SAP Software
 
-The <b>Ansible Content for IBM Power Systems - AIX with SAP Software</b> provides roles to automate administrator tasks for SAP installations on AIX, such installing the SAP Host Agent, starting and stopping SAP instances, upgrading the SAP kernel, etc.
+The <b>Ansible Content for SUSE/RHEL with SAP Software</b> provides roles to automate administrator tasks for SAP installations on SUSE/RHEL, such installing the SAP Host Agent, starting and stopping SAP instances, upgrading the SAP kernel, etc.
 
 IBM Power Systems is a family of enterprise servers that helps transform your organization by delivering industry leading resilience, scalability and accelerated performance for the most sensitive, mission critical workloads and next-generation AI and edge solutions. The Power platform also leverages open source technologies that enable you to run these workloads in a hybrid cloud environment with consistent tools, processes and skills.
 
