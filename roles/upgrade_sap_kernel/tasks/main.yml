@@ -1,3 +1,11 @@
 ---
+# tasks prepare temporary directory
+- import_tasks: pre_temp_directory.yml
+# tasks kernel backup
+- import_tasks: kernel_backup.yml
+# tasks Prepare Media
+- import_tasks: define_sapcar-media.yml
+# tasks Extract Kernel 
+- import_tasks: extract_kernel.yml
 # tasks main file for upgrade_sap_kernel
 - import_tasks: sap_kernel_upgrade.yml
