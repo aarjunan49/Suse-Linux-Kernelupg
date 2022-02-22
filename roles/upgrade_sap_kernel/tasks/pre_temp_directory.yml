@@ -1,0 +1,48 @@
+---
+#####################################
+# PreCheck upgsapkrn_input_sap_sid
+#####################################
+- name: Check upgsapkrn_input_sap_sid variable
+  fail:
+    msg: "Error: upgsapkrn_input_sap_sid is undefined."
+  when: (upgsapkrn_input_sap_sid is not defined) or (upgsapkrn_input_sap_sid is none)
+  #########################################################
+# Prepare directory on managed node to upload resources
+#########################################################
+- name: Check dir {{ upgsapkrn_dir_upload_managednode }} on managed node to upload resources
+  become: yes
+  file:
+    path: "{{ upgsapkrn_dir_upload_managednode }}"
+    state: absent
+    owner: "{{ upgsapkrn_input_sap_adm }}"
+    group: "{{ upgsapkrn_input_sap_sys }}"
+    mode: 0775
+- name: Check directory {{ upgsapkrn_dir_upload_managednode }}
+  become: yes
+  file:
+    path: "{{ upgsapkrn_dir_upload_managednode }}"
+    state: directory
+    owner: "{{ upgsapkrn_input_sap_adm }}"
+    group: "{{ upgsapkrn_input_sap_sys }}"
+    mode: 0775
+###########################################
+# Prepare directory on managed node to extract resources
+#########################################################
+- name: Check dir {{ upgsapkrn_dir_extracted_sar_managednode }} on managed node to extract resources
+ # become_user: "{{ upgsapkrn_input_sap_adm }}"
+  become: yes
+  file:
+    path: "{{ upgsapkrn_dir_extracted_sar_managednode }}"
+    state: absent
+    owner: "{{ upgsapkrn_input_sap_adm }}"
+    group: "{{ upgsapkrn_input_sap_sys }}"
+    mode: 0775
+- name: Check directory {{ upgsapkrn_dir_extracted_sar_managednode }}
+ # become_user: "{{ upgsapkrn_input_sap_adm }}"
+  become: yes
+  file:
+    path: "{{ upgsapkrn_dir_extracted_sar_managednode }}"
+    state: directory
+    owner: "{{ upgsapkrn_input_sap_adm }}"
+    group: "{{ upgsapkrn_input_sap_sys }}"
+    mode: 0775
