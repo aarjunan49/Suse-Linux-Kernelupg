@@ -1,0 +1,29 @@
+---
+######################################################
+# Upload SAR files to dir on managed node
+######################################################
+- name: Upload SAR files to dir {{ upgsapkrn_dir_upload_managednode }} on managed node
+  become: yes
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ upgsapkrn_dir_upload_managednode }}"
+    owner: "{{ upgsapkrn_input_sap_adm }}"
+    group: "{{ upgsapkrn_input_sap_sys }}"
+    mode: 0755
+  with_fileglob:
+    - "{{ upgsapkrn_dir_download_sar_controlnode }}/*.SAR"
+    - "{{ upgsapkrn_dir_download_sar_controlnode }}/*.sar"
+######################################################
+# Extract SAR files into dir on managed node
+############################################### ######
+- name: Extract SAR files into dir {{ upgsapkrn_dir_extracted_sar_managednode }}
+  become_user: "{{ upgsapkrn_input_sap_adm }}"
+  become: yes
+  #shell: "ls {{ upgsapkrn_dir_upload_managednode }}/*.*(sar|SAR)* | xargs -n1 {{ upgsapkrn_fact_sapcar_file }}/{{ upgsapkrn_file_sapcar }} -xvf"
+  shell: "ls {{ upgsapkrn_dir_upload_managednode }}/*.SAR | xargs -n1 {{ upgsapkrn_fact_sapcar_file }}/{{ upgsapkrn_file_sapcar }} -xvf"
+  environment:
+    LIBPATH: "{{ upgsapkrn_dir_extracted_sar_managednode }}"
+  args:
+    chdir: "{{ upgsapkrn_dir_extracted_sar_managednode }}"
+  register: result_files
+  failed_when: result_files.rc >= 2
